@@ -36,6 +36,7 @@
 #include <QLabel>
 #include <QFrame>
 #include <QRadioButton>
+#include <QDoubleSpinBox>
 
 #include <thread>
 
@@ -109,38 +110,29 @@ protected:
   QHBoxLayout* _hbox9;
   QHBoxLayout* _hbox10;
 
-  QPushButton* _button1;
-  QPushButton* _button2;
-  QPushButton* _button3;
-  QPushButton* _button4;
-  QPushButton* _button5;
-  QPushButton* _button6;
-  QPushButton* _button7;
-  QPushButton* _button8;
+  QPushButton* _btn_clear;
+  QPushButton* _btn_save_changes;
+  QPushButton* _btn_save_map;
+  QPushButton* _btn_clear_measurement;
+  QPushButton* _btn_add_submap;
+  QPushButton* _btn_generate_map;
+  QPushButton* _btn_serialize;
+  QPushButton* _btn_deserialize;
 
-  QLineEdit* _line1;
-  QLineEdit* _line2;
-  QLineEdit* _line3;
-  QLineEdit* _line4;
-  QLineEdit* _line5;
-  QLineEdit* _line6;
-  QLineEdit* _line7;
+  QLineEdit* _map_name;
+  QLineEdit* _submap_name;
+  QLineEdit* _posegraph_filename;
+  QDoubleSpinBox* _initpose_x;
+  QDoubleSpinBox* _initpose_y;
+  QDoubleSpinBox* _initpose_theta;
 
-  QCheckBox* _check1;
-  QCheckBox* _check2;
+  QCheckBox* _is_interactive;
+  QCheckBox* _accept_measure;
 
-  QRadioButton* _radio1;
-  QRadioButton* _radio2;
-  QRadioButton* _radio3;
-  QRadioButton* _radio4;
-
-  QLabel* _label1;
-  QLabel* _label2;
-  QLabel* _label4;
-  QLabel* _label5;
-  QLabel* _label6;
-  QLabel* _label7;
-  QLabel* _label8;
+  QRadioButton* _start_at_dock;
+  QRadioButton* _start_at_est;
+  QRadioButton* _start_at_odom;
+  QRadioButton* _localize;
 
   QFrame* _line;
 

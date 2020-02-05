@@ -69,136 +69,109 @@ SlamToolboxPlugin::SlamToolboxPlugin(QWidget* parent):
   _hbox9 = new QHBoxLayout();
   _hbox10 = new QHBoxLayout();
 
-  QFrame* _line = new QFrame();
-  _line->setFrameShape(QFrame::HLine);
-  _line->setFrameShadow(QFrame::Sunken);
 
-  _button1 = new QPushButton(this);
-  _button1->setText("Clear Changes");
-  connect(_button1, SIGNAL(clicked()), this, SLOT(ClearChanges()));
-  _button2 = new QPushButton(this);
-  _button2->setText("Save Changes");
-  connect(_button2, SIGNAL(clicked()), this, SLOT(SaveChanges()));
-  _button3 = new QPushButton(this);
-  _button3->setText("Save Map");
-  connect(_button3, SIGNAL(clicked()), this, SLOT(SaveMap()));
-  _button4 = new QPushButton(this);
-  _button4->setText("Clear Measurement Queue");
-  connect(_button4, SIGNAL(clicked()), this, SLOT(ClearQueue()));
-  _button5 = new QPushButton(this);
-  _button5->setText("Add Submap");
-  connect(_button5, SIGNAL(clicked()), this, SLOT(LoadSubmap()));
-  _button6 = new QPushButton(this);
-  _button6->setText("Generate Map");
-  connect(_button6, SIGNAL(clicked()), this, SLOT(GenerateMap()));
-  _button7 = new QPushButton(this);
-  _button7->setText("Serialize Map");
-  connect(_button7, SIGNAL(clicked()), this, SLOT(SerializeMap()));
-  _button8 = new QPushButton(this);
-  _button8->setText("Deserialize Map");
-  connect(_button8, SIGNAL(clicked()), this, SLOT(DeserializeMap()));
 
-  _label1 = new QLabel(this);
-  _label1->setText("Interactive Mode");
-  _label2 = new QLabel(this);
-  _label2->setText("Accept New Scans");
-  _label4 = new QLabel(this);
-  _label4->setText("Merge Map Tool");
-  _label4->setAlignment(Qt::AlignCenter);
-  _label5 = new QLabel(this);
-  _label5->setText("Create Map Tool");
-  _label5->setAlignment(Qt::AlignCenter);
-  _label6 = new QLabel(this);
-  _label6->setText("X");
-  _label6->setAlignment(Qt::AlignCenter);
-  _label7 = new QLabel(this);
-  _label7->setText("Y");
-  _label7->setAlignment(Qt::AlignCenter);
-  _label8 = new QLabel(this);
-  _label8->setText("θ");
-  _label8->setAlignment(Qt::AlignCenter);
+  _btn_clear = new QPushButton(this);
+  _btn_clear->setText("Clear Changes");
+  connect(_btn_clear, SIGNAL(clicked()), this, SLOT(ClearChanges()));
+  _btn_save_changes = new QPushButton(this);
+  _btn_save_changes->setText("Save Changes");
+  connect(_btn_save_changes, SIGNAL(clicked()), this, SLOT(SaveChanges()));
+  _btn_save_map = new QPushButton(this);
+  _btn_save_map->setText("Save Map");
+  connect(_btn_save_map, SIGNAL(clicked()), this, SLOT(SaveMap()));
+  _btn_clear_measurement = new QPushButton(this);
+  _btn_clear_measurement->setText("Clear Measurement Queue");
+  connect(_btn_clear_measurement, SIGNAL(clicked()), this, SLOT(ClearQueue()));
+  _btn_add_submap = new QPushButton(this);
+  _btn_add_submap->setText("Add Submap");
+  connect(_btn_add_submap, SIGNAL(clicked()), this, SLOT(LoadSubmap()));
+  _btn_generate_map = new QPushButton(this);
+  _btn_generate_map->setText("Generate Map");
+  connect(_btn_generate_map, SIGNAL(clicked()), this, SLOT(GenerateMap()));
+  _btn_serialize = new QPushButton(this);
+  _btn_serialize->setText("Serialize Map");
+  connect(_btn_serialize, SIGNAL(clicked()), this, SLOT(SerializeMap()));
+  _btn_deserialize = new QPushButton(this);
+  _btn_deserialize->setText("Deserialize Map");
+  connect(_btn_deserialize, SIGNAL(clicked()), this, SLOT(DeserializeMap()));
 
-  _check1 = new QCheckBox();
-  _check1->setChecked(interactive);
-  connect(_check1, SIGNAL(stateChanged(int)), this, SLOT(InteractiveCb(int)));
-  _check2 = new QCheckBox();
-  _check2->setChecked(!paused_measure);
-  connect(_check2, SIGNAL(stateChanged(int)), this, SLOT(PauseMeasurementsCb(int)));
-  _radio1 = new QRadioButton(tr("Start At Dock"));
-  _radio1->setChecked(true);
-  _radio2 = new QRadioButton(tr("Start At Pose Est."));
-  _radio3 = new QRadioButton(tr("Start At Curr. Odom"));
-  _radio4 = new QRadioButton(tr("Localize"));
+  _is_interactive = new QCheckBox();
+  _is_interactive->setChecked(interactive);
+  connect(_is_interactive, SIGNAL(stateChanged(int)), this, SLOT(InteractiveCb(int)));
+  _accept_measure = new QCheckBox();
+  _accept_measure->setChecked(!paused_measure);
+  connect(_accept_measure, SIGNAL(stateChanged(int)), this, SLOT(PauseMeasurementsCb(int)));
+  _start_at_dock = new QRadioButton(tr("Start At Dock"));
+  _start_at_dock->setChecked(true);
+  _start_at_est = new QRadioButton(tr("Start At Pose Est."));
+  _start_at_odom = new QRadioButton(tr("Start At Curr. Odom"));
+  _localize = new QRadioButton(tr("Localize"));
 
-  connect(_radio1, SIGNAL(clicked()), this, SLOT(FirstNodeMatchCb()));
-  connect(_radio2, SIGNAL(clicked()), this, SLOT(PoseEstMatchCb()));
-  connect(_radio3, SIGNAL(clicked()), this, SLOT(CurEstMatchCb()));
-  connect(_radio4, SIGNAL(clicked()), this, SLOT(LocalizeCb()));
+  connect(_start_at_dock, SIGNAL(clicked()), this, SLOT(FirstNodeMatchCb()));
+  connect(_start_at_est, SIGNAL(clicked()), this, SLOT(PoseEstMatchCb()));
+  connect(_start_at_odom, SIGNAL(clicked()), this, SLOT(CurEstMatchCb()));
+  connect(_localize, SIGNAL(clicked()), this, SLOT(LocalizeCb()));
 
-  _line1 = new QLineEdit();
-  _line2 = new QLineEdit();
-  _line3 = new QLineEdit();
-  _line4 = new QLineEdit();
-  _line5 = new QLineEdit();
-  _line6 = new QLineEdit();
-  _line7 = new QLineEdit();
+  _map_name = new QLineEdit();
+  _submap_name = new QLineEdit();
+  _posegraph_filename = new QLineEdit();
+  _initpose_x = new QDoubleSpinBox();
+  _initpose_y = new QDoubleSpinBox();
+  _initpose_theta = new QDoubleSpinBox();
 
-  _button1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  _button2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  _button3->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  _button4->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  _button5->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  _button6->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  _button7->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  _button8->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  _check1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  _check2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  _line1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  _line2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  _line3->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  _line4->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  _line5->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  _line6->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  _line7->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  _btn_clear->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  _btn_save_changes->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  _btn_save_map->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  _btn_clear_measurement->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  _btn_add_submap->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  _btn_generate_map->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  _btn_serialize->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  _btn_deserialize->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  _is_interactive->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  _accept_measure->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  _map_name->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  _submap_name->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  _posegraph_filename->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-  _hbox1->addWidget(_check1);
-  _hbox1->addWidget(_label1);
-  _hbox1->addWidget(_check2);
-  _hbox1->addWidget(_label2);
+  _hbox1->addWidget(_is_interactive);
+  _hbox1->addWidget(new QLabel("Interactive Mode"));
+  _hbox1->addWidget(_accept_measure);
+  _hbox1->addWidget(new QLabel("Accept New Scans"));
 
-  _hbox2->addWidget(_button1);
-  _hbox2->addWidget(_button2);
+  _hbox2->addWidget(_btn_clear);
+  _hbox2->addWidget(_btn_save_changes);
 
-  _hbox3->addWidget(_button3);
-  _hbox3->addWidget(_line1);
+  _hbox3->addWidget(_btn_save_map);
+  _hbox3->addWidget(_map_name);
 
-  _hbox4->addWidget(_button4);
+  _hbox4->addWidget(_btn_clear_measurement);
 
-  _hbox5->addWidget(_button5);
-  _hbox5->addWidget(_line2);
+  _hbox5->addWidget(_btn_add_submap);
+  _hbox5->addWidget(_submap_name);
 
-  _hbox6->addWidget(_button6);
+  _hbox6->addWidget(_btn_generate_map);
 
-  _hbox7->addWidget(_button7);
-  _hbox7->addWidget(_line3);
+  _hbox7->addWidget(new QLabel("filename:"));
+  _hbox7->addWidget(_posegraph_filename);
 
-  _hbox8->addWidget(_button8);
-  _hbox8->addWidget(_line4);
+  _hbox8->addWidget(_btn_deserialize);
+  _hbox8->addWidget(_btn_serialize);
 
-  _hbox9->addWidget(_radio1);
-  _hbox9->addWidget(_radio2);
-  _hbox9->addWidget(_radio3);
-  _hbox9->addWidget(_radio4);
+  _hbox9->addWidget(_start_at_dock);
+  _hbox9->addWidget(_start_at_est);
+  _hbox9->addWidget(_start_at_odom);
+  _hbox9->addWidget(_localize);
   _hbox9->addStretch(1);
 
-  _hbox10->addWidget(_label6);
-  _hbox10->addWidget(_line5);
-  _hbox10->addWidget(_label7);
-  _hbox10->addWidget(_line6);
-  _hbox10->addWidget(_label8);
-  _hbox10->addWidget(_line7);
+  _hbox10->addWidget(new QLabel("X"));
+  _hbox10->addWidget(_initpose_x);
+  _hbox10->addWidget(new QLabel("Y"));
+  _hbox10->addWidget(_initpose_y);
+  _hbox10->addWidget(new QLabel("θ"));
+  _hbox10->addWidget(_initpose_theta);
 
-  _vbox->addWidget(_label5);
+  _vbox->addWidget(new QLabel("Create Map Tool"));
   _vbox->addLayout(_hbox1);
   _vbox->addLayout(_hbox2);
   _vbox->addLayout(_hbox3);
@@ -207,8 +180,13 @@ SlamToolboxPlugin::SlamToolboxPlugin(QWidget* parent):
   _vbox->addLayout(_hbox9);
   _vbox->addLayout(_hbox10);
   _vbox->addLayout(_hbox4);
-  _vbox->addWidget(_line);
-  _vbox->addWidget(_label4);
+
+  QFrame* line = new QFrame();
+  line->setFrameShape(QFrame::HLine);
+  line->setFrameShadow(QFrame::Sunken);
+  _vbox->addWidget(line);
+  
+  _vbox->addWidget(new QLabel("Merge Map Tool"));
   _vbox->addLayout(_hbox5);
   _vbox->addLayout(_hbox6);
 
@@ -232,7 +210,7 @@ void SlamToolboxPlugin::SerializeMap()
 /*****************************************************************************/
 {
   slam_toolbox_msgs::SerializePoseGraph msg;
-  msg.request.filename = _line3->text().toStdString();
+  msg.request.filename = _posegraph_filename->text().toStdString();
   if (!_serialize.call(msg))
   {
     ROS_WARN("SlamToolbox: Failed to serialize pose graph to file, is service running?");
@@ -246,7 +224,7 @@ void SlamToolboxPlugin::DeserializeMap()
   typedef slam_toolbox_msgs::DeserializePoseGraph::Request procType;
 
   slam_toolbox_msgs::DeserializePoseGraph msg;
-  msg.request.filename = _line4->text().toStdString();
+  msg.request.filename = _posegraph_filename->text().toStdString();
   if (_match_type == PROCESS_FIRST_NODE_CMT)
   {
     msg.request.match_type = procType::START_AT_FIRST_NODE;
@@ -254,16 +232,16 @@ void SlamToolboxPlugin::DeserializeMap()
   else if (_match_type == PROCESS_NEAR_REGION_CMT)
   {
     msg.request.match_type = procType::START_AT_GIVEN_POSE;
-    msg.request.initial_pose.x = std::stod(_line5->text().toStdString());
-    msg.request.initial_pose.y = std::stod(_line6->text().toStdString());
-    msg.request.initial_pose.theta = std::stod(_line7->text().toStdString());
+    msg.request.initial_pose.x = _initpose_x->value();
+    msg.request.initial_pose.y = _initpose_y->value();
+    msg.request.initial_pose.theta = _initpose_theta->value();
   }
   else if (_match_type == LOCALIZE_CMT)
   {
     msg.request.match_type = procType::LOCALIZE_AT_POSE;
-    msg.request.initial_pose.x = std::stod(_line5->text().toStdString());
-    msg.request.initial_pose.y = std::stod(_line6->text().toStdString());
-    msg.request.initial_pose.theta = std::stod(_line7->text().toStdString());
+     msg.request.initial_pose.x = _initpose_x->value();
+    msg.request.initial_pose.y = _initpose_y->value();
+    msg.request.initial_pose.theta = _initpose_theta->value();
   }
   else
   {
@@ -282,7 +260,7 @@ void SlamToolboxPlugin::LoadSubmap()
 /*****************************************************************************/
 {
   slam_toolbox_msgs::AddSubmap msg;
-  msg.request.filename = _line2->text().toStdString();
+  msg.request.filename = _submap_name->text().toStdString();
   if (!_load_submap_for_merging.call(msg))
   {
     ROS_WARN("MergeMaps: Failed to load pose graph from file, is service running?");
@@ -327,7 +305,7 @@ void SlamToolboxPlugin::SaveMap()
 /*****************************************************************************/
 {
   slam_toolbox_msgs::SaveMap msg;
-  msg.request.name.data = _line1->text().toStdString();
+  msg.request.name.data = _map_name->text().toStdString();
   if (!_saveMap.call(msg))
   {
     ROS_WARN("SlamToolbox: Failed to save map as %s, is service running?",
@@ -372,7 +350,7 @@ void SlamToolboxPlugin::PauseMeasurementsCb(int state)
 void SlamToolboxPlugin::FirstNodeMatchCb()
 /*****************************************************************************/
 {
-  if (_radio1->isChecked() == Qt::Unchecked)
+  if (_start_at_dock->isChecked() == Qt::Unchecked)
   {
     return;
   }
@@ -387,7 +365,7 @@ void SlamToolboxPlugin::FirstNodeMatchCb()
 void SlamToolboxPlugin::PoseEstMatchCb()
 /*****************************************************************************/
 {
-  if (_radio2->isChecked() == Qt::Unchecked)
+  if (_start_at_est->isChecked() == Qt::Unchecked)
   {
     return;
   }
@@ -402,7 +380,7 @@ void SlamToolboxPlugin::PoseEstMatchCb()
 void SlamToolboxPlugin::CurEstMatchCb()
 /*****************************************************************************/
 {
-  if (_radio3->isChecked() == Qt::Unchecked)
+  if (_start_at_odom->isChecked() == Qt::Unchecked)
   {
     return;
   }
@@ -418,7 +396,7 @@ void SlamToolboxPlugin::CurEstMatchCb()
 void SlamToolboxPlugin::LocalizeCb()
 /*****************************************************************************/
 {
-  if (_radio4->isChecked() == Qt::Unchecked)
+  if (_localize->isChecked() == Qt::Unchecked)
   {
     return;
   }
@@ -442,13 +420,13 @@ void SlamToolboxPlugin::updateCheckStateIfExternalChange()
     nh.getParam("/slam_toolbox/paused_new_measurements", paused_measure);
     nh.getParam("/slam_toolbox/interactive_mode", interactive);
 
-    bool oldState = _check1->blockSignals(true);
-    _check1->setChecked(interactive);
-    _check1->blockSignals(oldState);
+    bool oldState = _is_interactive->blockSignals(true);
+    _is_interactive->setChecked(interactive);
+    _is_interactive->blockSignals(oldState);
 
-    oldState = _check2->blockSignals(true);
-    _check2->setChecked(!paused_measure);
-    _check2->blockSignals(oldState);
+    oldState = _accept_measure->blockSignals(true);
+    _accept_measure->setChecked(!paused_measure);
+    _accept_measure->blockSignals(oldState);
 
     r.sleep();
   }
