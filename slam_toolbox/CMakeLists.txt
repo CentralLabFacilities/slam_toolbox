@@ -39,6 +39,7 @@ find_package(G2O REQUIRED)
 find_package(Cholmod REQUIRED)
 find_package(LAPACK REQUIRED)
 find_package(Ceres REQUIRED COMPONENTS SuiteSparse)
+find_package(TBB REQUIRED)
 find_package(rostest REQUIRED)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -89,7 +90,7 @@ add_library(ceres_solver_plugin solvers/ceres_solver.cpp)
 target_link_libraries(ceres_solver_plugin ${catkin_LIBRARIES} 
                                           ${CERES_LIBRARIES}
                                           ${Boost_LIBRARIES}
-                                          ${TBB_LIBRARIES}
+                                          TBB::tbb
 )
 
 #### Tool lib for mapping
